@@ -23,6 +23,7 @@ jobs:
       - name: Run jpackage for Windows
         run: |
           jpackage ^
+            --verbose ^
             --name Scrapper ^
             --input dist ^
             --main-jar scrapper.jar ^
@@ -30,6 +31,10 @@ jobs:
             --type exe ^
             --dest out/dist ^
             --win-console
+        shell: cmd
+      - name: Check Output Directory
+        run: |
+          dir out\dist
         shell: cmd
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
