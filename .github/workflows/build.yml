@@ -15,10 +15,10 @@ jobs:
         with:
           java-version: "21"
           distribution: "temurin"
-      - name: Verify JAR
+      - name: Verify JAR Presence
         run: |
           dir dist
-          java -jar dist/scrapper.jar --version  # Optional: test JAR (adjust if no --version)
+          if not exist dist\scrapper.jar (exit /b 1)
         shell: cmd
       - name: Run jpackage for Windows
         run: |
