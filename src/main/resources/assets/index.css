@@ -1,0 +1,13 @@
+#menu_bar {
+    -fx-background-color: #fff;
+    -fx-border-color: transparent transparent black transparent;
+}
+
+#menu_bar #menu_item {
+    -fx-cursor: hand;
+}
+
+#anchor_panel {
+    -fx-background-color: #6366f1;
+}
+
