@@ -15,17 +15,16 @@ jobs:
         with:
           java-version: "21"
           distribution: "temurin"
-      - name: Build JAR with IntelliJ Artifact Simulation
+      - name: Verify JAR
         run: |
-          mkdir out\classes out\artifacts\scrapper_jar
-          javac -cp "libs/*" -d out/classes src/main/java/**/*.java
-          jar cfm out/artifacts/scrapper_jar/scrapper.jar META-INF/MANIFEST.MF -C out/classes .
+          dir dist
+          java -jar dist/scrapper.jar --version  # Optional: test JAR (adjust if no --version)
         shell: cmd
       - name: Run jpackage for Windows
         run: |
           jpackage ^
             --name Scrapper ^
-            --input out/artifacts/scrapper_jar ^
+            --input dist ^
             --main-jar scrapper.jar ^
             --main-class com.desktop.Launcher ^
             --type exe ^
