@@ -1,0 +1,39 @@
+name: Build Scrapper Windows EXE
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+      - name: Build JAR with IntelliJ Artifact Simulation
+        run: |
+          mkdir out\classes out\artifacts\scrapper_jar
+          javac -cp "libs/*" -d out/classes src/main/java/**/*.java
+          jar cfm out/artifacts/scrapper_jar/scrapper.jar META-INF/MANIFEST.MF -C out/classes .
+        shell: cmd
+      - name: Run jpackage for Windows
+        run: |
+          jpackage ^
+            --name Scrapper ^
+            --input out/artifacts/scrapper_jar ^
+            --main-jar scrapper.jar ^
+            --main-class com.desktop.Launcher ^
+            --type exe ^
+            --dest out/dist ^
+            --win-console
+        shell: cmd
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Scrapper-Windows
+          path: out/dist/Scrapper.exe
